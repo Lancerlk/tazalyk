@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Контакты — Чистый Дом | Клининг в Алматы</title>
+
+    <meta
+      name="description"
+      content="Свяжитесь с нами для заказа уборки в Алматы. Телефон, WhatsApp, email, адрес и карта."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome для иконок -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Header (обнови ссылки на свои страницы) -->
+    <header id="header">
+      <div class="container nav">
+        <a href="index.html" class="logo">Чистый Дом</a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="uslugi.html">Услуги</a></li>
+          <li><a href="o-nas.html">О нас</a></li>
+          <li>
+            <a href="kontakty.html" style="color: var(--primary)">Контакты</a>
+          </li>
+        </ul>
+
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+
+        <a href="#form" class="btn">Заказать</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <h1>Контакты</h1>
+
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-phone-volume"></i>
+              <div>
+                <h3>Телефон</h3>
+                <p><a href="tel:+77771234567">+7 (777) 123-45-67</a></p>
+                <p>Работаем ежедневно с 8:00 до 22:00</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <i class="fab fa-whatsapp"></i>
+              <div>
+                <h3>WhatsApp</h3>
+                <a
+                  href="https://wa.me/77771234567?text=Здравствуйте!%20Хочу%20заказать%20уборку"
+                  target="_blank"
+                  class="whatsapp-btn"
+                >
+                  <i class="fab fa-whatsapp"></i> Написать в WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h3>Email</h3>
+                <p>
+                  <a href="mailto:info@chisty-dom.kz">info@chisty-dom.kz</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <h3>Адрес</h3>
+                <p>Алматы, ул. Абая 100, офис 42</p>
+                <p>(ориентир — ТРЦ Mega Center Alma-Ata)</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- 2GIS карта (замени на свой адрес) -->
+            <div class="map-wrapper">
+              <iframe
+                src="https://2gis.kz/almaty/geo/70030076220191234"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Форма обратной связи -->
+        <div class="contact-form" id="form">
+          <h2>Оставьте заявку</h2>
+          <form id="contactForm">
+            <input type="text" name="name" placeholder="Ваше имя" required />
+            <input type="tel" name="phone" placeholder="Телефон" required />
+            <input
+              type="text"
+              name="address"
+              placeholder="Адрес (улица, дом, кв.)"
+            />
+            <textarea
+              name="message"
+              placeholder="Что нужно убрать? Когда удобно?"
+              rows="5"
+            ></textarea>
+            <button type="submit">Отправить заявку</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Модальное окно подтверждения -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" id="closeModal">×</span>
+        <h3>Заявка отправлена?</h3>
+        <p>Мы свяжемся с вами в ближайшее время.</p>
+        <div class="modal-buttons">
+          <button id="cancelBtn" class="cancel">Отмена</button>
+          <button id="confirmBtn" class="confirm">Отправить</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>© 2026 Чистый Дом — клининг в Алматы</p>
+        <p>+7 (777) 123-45-67 | info@chisty-dom.kz</p>
+      </div>
+    </footer>
+
+    <script>
+      // Мобильное меню
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.getElementById("navMenu");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // Модальное окно
+      const modal = document.getElementById("confirmModal");
+      const closeModal = document.getElementById("closeModal");
+      const cancelBtn = document.getElementById("cancelBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const form = document.getElementById("contactForm");
+
+      function closeModalFn() {
+        modal.style.display = "none";
+      }
+
+      closeModal.onclick = closeModalFn;
+      cancelBtn.onclick = closeModalFn;
+      window.onclick = (e) => {
+        if (e.target === modal) closeModalFn();
+      };
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        modal.style.display = "flex"; // показываем подтверждение
+      });
+
+      confirmBtn.onclick = () => {
+        closeModalFn();
+        alert("Заявка отправлена! Мы свяжемся с вами.");
+        form.reset();
+        // Здесь можно добавить реальную отправку (Formspree, PHP и т.д.)
+      };
+    </script>
+  </body>
+</html>
