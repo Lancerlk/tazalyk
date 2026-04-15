@@ -1,223 +1,1148 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Чистый Дом — Профессиональный клининг в Алматы</title>
-    <meta
-      name="description"
-      content="Уборка квартир, офисов, после ремонта. Быстро, качественно, недорого. Заказать клининг в Алматы."
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тазалық - Профессиональный клининг</title>
+    <!-- Подключаем Tailwind CSS для быстрой и адаптивной верстки -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключаем иконки FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Подключаем шрифты Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="calculytor.css" />
+        /* Пользовательские анимации */
+        .blob {
+            position: absolute;
+            filter: blur(40px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out alternate;
+        }
 
-    <!-- Font Awesome для иконок (преимущества) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <header id="header">
-      <div class="container nav">
-        <a href="#" class="logo">ТАЗАЛЫК</a>
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(30px, -50px) scale(1.1); }
+            100% { transform: translate(-20px, 20px) scale(0.9); }
+        }
 
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="contact.html">Контакты</li>
-          <li><a href="#services">Услуги</a></li>
-          <li><a href="o-nas.html">О нас</a></li>
-          <li><a href="#advantages">Преимущества</a></li>
-          <li><a href="#contact">Заказать</a></li>
-        </ul>
+        .blob-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: #93c5fd; animation-delay: 0s; }
+        .blob-2 { top: 40%; right: -10%; width: 300px; height: 300px; background: #a7f3d0; animation-delay: 2s; }
+        .blob-3 { bottom: -10%; left: 20%; width: 350px; height: 350px; background: #e0e7ff; animation-delay: 4s; }
 
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
+        /* Классы для анимации при скролле (Intersection Observer) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Стилизация ползунка в калькуляторе */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 4px;
+        }
+        
+        /* Плавное изменение цены */
+        .price-update {
+            animation: pulse-price 0.3s ease-out;
+        }
+        @keyframes pulse-price {
+            0% { transform: scale(1); color: #2563eb; }
+            50% { transform: scale(1.1); color: #1d4ed8; }
+            100% { transform: scale(1); color: #1e293b; }
+        }
+
+        /* Стили для режима редактирования */
+        .admin-edit-mode {
+            outline: 2px dashed #3b82f6 !important;
+            outline-offset: 2px;
+            transition: all 0.2s;
+        }
+        img.admin-edit-mode {
+            cursor: pointer;
+            z-index: 60 !important;
+            pointer-events: auto !important;
+        }
+        h1.admin-edit-mode, h2.admin-edit-mode, h3.admin-edit-mode, h4.admin-edit-mode, p.admin-edit-mode, li.admin-edit-mode, span.admin-edit-mode {
+            cursor: text;
+            position: relative;
+            z-index: 61 !important;
+        }
+        .admin-edit-mode:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Топ-баннер со скидкой -->
+    <div id="promo-banner" class="bg-gradient-to-r from-blue-600 to-teal-500 text-white text-sm py-2.5 px-4 relative z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-center items-center">
+            <p class="text-center font-medium pr-6 md:pr-0">
+                <span class="inline-block mr-1">🎁</span> 
+                <span id="banner-text-content">То что захотим написать</span> <strong id="banner-promo-code" class="bg-white/20 px-2 py-0.5 rounded ml-1 tracking-wider">NEW26</strong>
+            </p>                     
+            </button>
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="sticky top-0 w-full z-40 bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                     <!-- лого -->
+                    <div class="w-10 h-10  flex items-center justify-center text-white font-bold text-xl">  
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight text-slate-900">ТАЗАЛЫК<span class="text-blue-600"></span></span>
+                </div>
+                
+                <!-- Меню десктоп -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#services" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Услуги</a>
+                    <a href="#reviews" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Отзывы</a>
+                    <a href="#calculator" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Калькулятор</a>
+                    <a href="#about" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">О нас</a>
+                    <a href="#calculator" class="bg-blue-600 text-white px-6 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Заказать уборку
+                    </a>
+                </div>
+
+                <!-- Кнопка мобильного меню -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-blue-600 focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Мобильное меню -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#services" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Услуги</a>
+                <a href="#reviews" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Отзывы</a>
+                <a href="#calculator" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">Калькулятор</a>
+                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50">О нас</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главный экран (Hero баннер с картинками) -->
+    <section class="relative overflow-hidden h-screen min-h-[600px] flex items-center bg-slate-900">
+        <!-- Hero Slider Track (движется) -->
+        <div id="hero-slider-track" class="absolute inset-0 flex transition-transform duration-700 ease-in-out h-full w-full z-0">
+            
+            <!-- Slide 1 -->
+            <div class="w-full flex-shrink-0 relative h-full flex flex-col justify-center items-center">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1920&q=80" alt="Идеальная чистота" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
+                
+                <div class="relative z-10 text-center max-w-3xl mx-auto px-4 -mt-10">
+                    <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-sm font-semibold mb-6 shadow-sm backdrop-blur-sm">
+                        <i class="fa-solid fa-star text-yellow-400 mr-1"></i> №1 Клининг в городе
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                        Идеальная чистота <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">без ваших усилий</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
+                        Доверьте уборку профессионалам. Мы используем экологичные средства и гарантируем безупречный результат, пока вы отдыхаете.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#calculator" class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1">
+                            Рассчитать стоимость
+                        </a>
+                        <a href="#services" class="bg-white/10 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                            Наши услуги
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="w-full flex-shrink-0 relative h-full flex flex-col justify-center items-center">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1920&q=80" alt="Эко-стандарты" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-teal-900/60 pointer-events-none"></div>
+                
+                <div class="relative z-10 text-center max-w-3xl mx-auto px-4 -mt-10">
+                    <span class="inline-block py-1 px-3 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 text-sm font-semibold mb-6 shadow-sm backdrop-blur-sm">
+                        <i class="fa-solid fa-leaf text-teal-400 mr-1"></i> Эко-стандарты
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                        Безопасный клининг <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-green-300">для детей и животных</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
+                        Мы используем только гипоаллергенные, сертифицированные средства, которые не оставляют запаха и абсолютно безопасны.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#calculator" class="bg-teal-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-teal-600 transition-all shadow-lg hover:shadow-teal-500/30 transform hover:-translate-y-1">
+                            Заказать эко-уборку
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="w-full flex-shrink-0 relative h-full flex flex-col justify-center items-center">
+                <img src="https://images.unsplash.com/photo-1628177142898-93e46e46537a?auto=format&fit=crop&w=1920&q=80" alt="Горячее предложение" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-orange-900/60 pointer-events-none"></div>
+                
+                <div class="relative z-10 text-center max-w-3xl mx-auto px-4 -mt-10">
+                    <span class="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30 text-sm font-semibold mb-6 shadow-sm backdrop-blur-sm">
+                        <i class="fa-solid fa-fire text-orange-400 mr-1"></i> Горячее предложение
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                        Генеральная уборка <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-300">со скидкой 20%</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
+                        Наведите идеальный порядок выгодно. Отмоем каждый уголок, удалим стойкие загрязнения и вернем дому первозданный вид.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#calculator" class="bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-500/30 transform hover:-translate-y-1">
+                            Получить скидку
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <a href="https://wa.me/77074195168" class="btn">What'sApp</a>
-      </div>
-    </header>
+        <!-- Hero Slider Navigation Arrows -->
+        <button onclick="prevHeroSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 rounded-full shadow-sm flex items-center justify-center text-white hover:bg-white hover:text-blue-600 transition-all z-20 focus:outline-none hidden sm:flex">
+            <i class="fa-solid fa-chevron-left text-lg"></i>
+        </button>
+        <button onclick="nextHeroSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 rounded-full shadow-sm flex items-center justify-center text-white hover:bg-white hover:text-blue-600 transition-all z-20 focus:outline-none hidden sm:flex">
+            <i class="fa-solid fa-chevron-right text-lg"></i>
+        </button>
 
-    <section class="hero">
-      <div class="container hero-content">
-        <h1>Профессиональная уборка в Алматы</h1>
-        <p>
-          Чистота и комфорт вашего дома или офиса за 3–5 часов. Гарантия
-          результата или вернём деньги.
-        </p>
-        <a
-          href="#calculator"
-          class="btn"
-          style="font-size: 1.3rem; padding: 14px 40px"
-          >Рассчитать стоимость</a
-        >
-      </div>
-    </section>
-
-    <section id="services">
-      <div class="container">
-        <h2>Наши услуги</h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <img
-              src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Генеральная уборка"
-            />
-            <h3>Генеральная вуборка</h3>
-            <p>
-              Полная уборка квартиры или дома: от пыли до труднодоступных мест.
-              От 15 000 ₸
-            </p>
-          </div>
-          <div class="service-card">
-            <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Уборка после ремонта"
-            />
-            <h3>После ремонта</h3>
-            <p>
-              Удаляем строительную пыль, моем окна, плинтуса, двери. От 20 000 ₸
-            </p>
-          </div>
-          <div class="service-card">
-            <img
-              src="https://images.unsplash.com/photo-1581578731543-6b3f3a0f6a1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Уборка офиса"
-            />
-            <h3>Уборка офиса</h3>
-            <p>
-              Ежедневная / еженедельная поддерживающая уборка. От 10 000 ₸ / мес
-            </p>
-          </div>
-          <div class="service-card">
-            <img
-              src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Химчистка мебели"
-            />
-            <h3>Химчистка мебели</h3>
-            <p>
-              Диваны, ковры, кресла — глубокая чистка без разводов. От 8 000 ₸ /
-              ед.
-            </p>
-          </div>
+        <!-- Hero Pagination Dots -->
+        <div class="absolute bottom-32 sm:bottom-28 left-0 right-0 flex justify-center gap-3 z-20">
+            <button onclick="goToHeroSlide(0)" class="w-3 h-3 rounded-full bg-blue-500 transition-colors hero-slide-dot focus:outline-none"></button>
+            <button onclick="goToHeroSlide(1)" class="w-3 h-3 rounded-full bg-white/50 transition-colors hero-slide-dot focus:outline-none"></button>
+            <button onclick="goToHeroSlide(2)" class="w-3 h-3 rounded-full bg-white/50 transition-colors hero-slide-dot focus:outline-none"></button>
         </div>
-      </div>
-    </section>
-
-    <section id="advantages" class="advantages">
-      <div class="container">
-        <h2>Почему выбирают нас</h2>
-        <div class="adv-grid">
-          <div class="adv-item">
-            <i class="fas fa-shield-alt"></i>
-            <h3>Гарантия качества</h3>
-            <p>Не понравилось — переделаем бесплатно</p>
-          </div>
-          <div class="adv-item">
-            <i class="fas fa-clock"></i>
-            <h3>Приезжаем вовремя</h3>
-            <p>Опоздание >15 мин — скидка 20%</p>
-          </div>
-          <div class="adv-item">
-            <i class="fas fa-broom"></i>
-            <h3>Свои средства</h3>
-            <p>Профессиональная химия без вреда для детей и животных</p>
-          </div>
-          <div class="adv-item">
-            <i class="fas fa-wallet"></i>
-            <h3>Прозрачные цены</h3>
-            <p>Без скрытых доплат</p>
-          </div>
+        
+        <!-- Stats Box -->
+        <div class="absolute bottom-0 left-0 right-0 z-20 bg-slate-900/40 backdrop-blur-lg border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-400 mb-1">500+</div>
+                        <div class="text-xs sm:text-sm text-slate-300">Довольных клиентов</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold text-teal-400 mb-1">100%</div>
+                        <div class="text-xs sm:text-sm text-slate-300">Гарантия качества</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold text-green-400 mb-1">Эко</div>
+                        <div class="text-xs sm:text-sm text-slate-300">Безопасные средства</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold text-orange-400 mb-1">24/7</div>
+                        <div class="text-xs sm:text-sm text-slate-300">Прием заявок</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="calculator" class="calc-section">
-      <div class="container">
-        <h2>Рассчитайте стоимость</h2>
+    <!-- Рекламные промо-баннеры (в стиле Antomi) -->
+    <section class="pb-16 pt-4 bg-slate-50 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-8 reveal">
+                
+                <!-- Баннер 1 -->
+                <div class="relative overflow-hidden rounded-2xl group min-h-[280px] flex items-center shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="window.location.href='#calculator'">
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80" alt="Химчистка мебели" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-900/10 pointer-events-none"></div>
+                    <div class="relative z-10 p-8 md:p-10 w-full pointer-events-none">
+                        <span class="inline-block py-1 px-3 rounded-md bg-blue-600 text-white text-xs font-bold tracking-wider uppercase mb-4 pointer-events-auto">Акция</span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 pointer-events-auto">Химчистка мебели<br>в подарок</h3>
+                        <p class="text-slate-300 mb-6 max-w-sm pointer-events-auto">При заказе генеральной уборки от 80 м² мы почистим ваш диван абсолютно бесплатно.</p>
+                        <span class="inline-flex items-center text-white font-bold group-hover:text-blue-400 transition-colors pointer-events-auto">
+                            Подробнее <i class="fa-solid fa-arrow-right ml-2 text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
 
-        <div class="calc-card">
-          <div class="calc-field">
-            <label for="cleanType">Тип уборки</label>
-            <select id="cleanType">
-              <option value="support">Поддерживающая</option>
-              <option value="general" selected>Генеральная</option>
-              <option value="afterRepair">После ремонта</option>
-            </select>
-          </div>
+                <!-- Баннер 2 -->
+                <div class="relative overflow-hidden rounded-2xl group min-h-[280px] flex items-center shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="window.location.href='#calculator'">
+                    <img src="https://images.unsplash.com/photo-1527515637-640a4309a478?auto=format&fit=crop&w=800&q=80" alt="Мытье окон" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-r from-teal-900/90 to-teal-900/10 pointer-events-none"></div>
+                    <div class="relative z-10 p-8 md:p-10 w-full pointer-events-none">
+                        <span class="inline-block py-1 px-3 rounded-md bg-teal-500 text-white text-xs font-bold tracking-wider uppercase mb-4 pointer-events-auto">-30% Скидка</span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 pointer-events-auto">Сезонное<br>мытье окон</h3>
+                        <p class="text-slate-300 mb-6 max-w-sm pointer-events-auto">Закажите профессиональную мойку окон без разводов по специальной цене.</p>
+                        <span class="inline-flex items-center text-white font-bold group-hover:text-teal-400 transition-colors pointer-events-auto">
+                            Заказать <i class="fa-solid fa-arrow-right ml-2 text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
 
-          <div class="calc-field">
-            <label for="area">Площадь, м²</label>
-            <input
-              type="number"
-              id="area"
-              min="20"
-              value="60"
-              placeholder="от 20 м²"
-            />
-          </div>
-
-          <div class="calc-extras">
-            <label>Дополнительно:</label>
-            <label class="check-label"
-              ><input type="checkbox" id="windows" /> Мойка окон</label
-            >
-            <label class="check-label"
-              ><input type="checkbox" id="sofa" /> Химчистка дивана</label
-            >
-            <label class="check-label"
-              ><input type="checkbox" id="carpet" /> Химчистка ковра</label
-            >
-            <label class="check-label"
-              ><input type="checkbox" id="balcony" /> Уборка балкона</label
-            >
-          </div>
-
-          <div class="calc-result">
-            <div class="result-label">Примерная стоимость:</div>
-            <div class="result-value" id="totalPrice">—</div>
-            <div class="result-note">Точная цена после замера</div>
-          </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="contact">
-      <div class="container">
-        <h2>Оставьте заявку</h2>
-        <div class="contact-form">
-          <form action="#" method="post">
-            <input type="text" placeholder="Ваше имя" required />
-            <input type="tel" placeholder="Телефон" required />
-            <input type="text" placeholder="Адрес (улица, дом, кв.)" required />
-            <textarea
-              placeholder="Что нужно убрать? (можно прикрепить фото)"
-              rows="5"
-            ></textarea>
-            <button type="submit">Заказать уборку</button>
-          </form>
+    <!-- Услуги -->
+    <section id="services" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Наши основные услуги</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Выберите подходящий тип уборки. Мы приедем со всем необходимым оборудованием.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Карточка 1 -->
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group reveal">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-broom"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Поддерживающая</h3>
+                    <p class="text-slate-600 mb-6 line-clamp-3">Регулярная уборка для поддержания чистоты. Сухая и влажная уборка полов, протирка пыли с открытых поверхностей, вынос мусора.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-slate-600">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Обеспыливание</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Мытье полов</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Уборка санузла</li>
+                    </ul>
+                    <div class="font-bold text-xl text-blue-600">от <span class="dyn-price-1">150</span> тг / м²</div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="bg-white rounded-2xl p-8 border-2 border-blue-500 shadow-lg relative transform hover:-translate-y-2 transition-all duration-300 group reveal" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">ПОПУЛЯРНО</div>
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-hands-bubbles"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Генеральная</h3>
+                    <p class="text-slate-600 mb-6">Глубокая очистка каждого сантиметра. Удаление стойких загрязнений, мытье кафеля, плинтусов и труднодоступных мест.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-slate-600">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Все из "Поддерживающей"</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Удаление жира на кухне</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Чистка радиаторов</li>
+                    </ul>
+                    <div class="font-bold text-xl text-blue-600">от <span class="dyn-price-2">250</span> тг / м²</div>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-helmet-safety"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">После ремонта</h3>
+                    <p class="text-slate-600 mb-6">Специализированная уборка строительной пыли, следов краски, скотча и цемента промышленными пылесосами.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-slate-600">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Сбор мелкого строит. мусора</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Удаление пятен краски/клея</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Обеспыливание всех стен</li>
+                    </ul>
+                    <div class="font-bold text-xl text-blue-600">от <span class="dyn-price-3">350</span> тг / м²</div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <footer>
-      <div class="container">
-        <p>© 2026</p>
-        <p>+7 777 777 77 77</p>
-      </div>
+    <!-- Отзывы (Слайдер) -->
+    <section id="reviews" class="py-24 bg-blue-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Отзывы наших клиентов</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Мы ценим доверие каждого клиента и гордимся результатами нашей работы.</p>
+            </div>
+
+            <div class="relative overflow-hidden w-full pb-16 reveal" style="transition-delay: 100ms;">
+                <div id="slider-track" class="flex transition-transform duration-700 ease-in-out">
+                    <!-- Slide 1 -->
+                    <div class="w-full flex-shrink-0 px-4 md:px-20 text-center flex flex-col justify-center items-center">
+                        <img src="https://i.pravatar.cc/150?img=44" alt="Клиент 1" class="w-24 h-24 rounded-full object-cover shadow-lg mb-6 border-4 border-white">
+                        <div class="text-yellow-400 text-2xl mb-6 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xl md:text-3xl text-slate-800 italic mb-8 leading-relaxed max-w-4xl">"Заказывала генеральную уборку перед переездом. Девочки отмыли абсолютно всё, даже старую духовку, которую я думала выбросить. Очень довольна результатом и вежливостью персонала!"</p>
+                        <h4 class="font-bold text-slate-900 text-xl">Елена Смирнова</h4>
+                        <p class="text-slate-500 text-base mt-2">Генеральная уборка, 65 м²</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="w-full flex-shrink-0 px-4 md:px-20 text-center flex flex-col justify-center items-center">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Клиент 2" class="w-24 h-24 rounded-full object-cover shadow-lg mb-6 border-4 border-white">
+                        <div class="text-yellow-400 text-2xl mb-6 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xl md:text-3xl text-slate-800 italic mb-8 leading-relaxed max-w-4xl">"Регулярно пользуюсь поддерживающей уборкой. Всегда приходят вовремя, убирают быстро и на совесть. В квартире всегда свежо и чисто. Огромное спасибо команде CleanPro!"</p>
+                        <h4 class="font-bold text-slate-900 text-xl">Михаил Иванов</h4>
+                        <p class="text-slate-500 text-base mt-2">Поддерживающая уборка, 40 м²</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="w-full flex-shrink-0 px-4 md:px-20 text-center flex flex-col justify-center items-center">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="Клиент 3" class="w-24 h-24 rounded-full object-cover shadow-lg mb-6 border-4 border-white">
+                        <div class="text-yellow-400 text-2xl mb-6 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-xl md:text-3xl text-slate-800 italic mb-8 leading-relaxed max-w-4xl">"После ремонта квартира была в ужасном состоянии, строительная пыль была везде. Бригада клинеров справилась за один день. Отличная работа профессионалов со своим оборудованием."</p>
+                        <h4 class="font-bold text-slate-900 text-xl">Анна Кузнецова</h4>
+                        <p class="text-slate-500 text-base mt-2">Уборка после ремонта, 90 м²</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <button onclick="prevSlide()" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm flex items-center justify-center text-slate-600 hover:bg-white hover:text-blue-600 transition-all z-10 focus:outline-none hidden sm:flex">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button onclick="nextSlide()" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm flex items-center justify-center text-slate-600 hover:bg-white hover:text-blue-600 transition-all z-10 focus:outline-none hidden sm:flex">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+                
+                <!-- Pagination Dots -->
+                <div class="absolute bottom-0 left-0 right-0 flex justify-center gap-3" id="slider-dots">
+                    <button onclick="goToSlide(0)" class="w-3 h-3 rounded-full bg-blue-600 transition-colors slide-dot focus:outline-none"></button>
+                    <button onclick="goToSlide(1)" class="w-3 h-3 rounded-full bg-slate-300 transition-colors slide-dot focus:outline-none"></button>
+                    <button onclick="goToSlide(2)" class="w-3 h-3 rounded-full bg-slate-300 transition-colors slide-dot focus:outline-none"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Калькулятор Section -->
+    <section id="calculator" class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Декоративные круги -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-blue-600 opacity-20 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-teal-500 opacity-20 blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">Рассчитайте стоимость онлайн</h2>
+                    <p class="text-slate-400 text-lg mb-8">
+                        Узнайте точную цену за пару кликов. Никаких скрытых платежей — вы платите ровно ту сумму, которую видите в калькуляторе.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-xl mt-1">
+                                <i class="fa-solid fa-1"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">Выберите параметры</h4>
+                                <p class="text-slate-400">Укажите площадь и тип уборки.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-xl mt-1">
+                                <i class="fa-solid fa-2"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">Добавьте опции</h4>
+                                <p class="text-slate-400">Нужно помыть окна или холодильник? Отметьте это.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-xl mt-1">
+                                <i class="fa-solid fa-3"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">Оставьте заявку</h4>
+                                <p class="text-slate-400">Мы перезвоним для подтверждения времени.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Блок калькулятора -->
+                <div class="bg-white rounded-3xl p-8 shadow-2xl text-slate-800 reveal" style="transition-delay: 200ms;">
+                    <form id="calc-form" onsubmit="event.preventDefault(); submitOrder();">
+                        
+                        <!-- Тип уборки -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Тип уборки</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="cleanType" id="calc-type-1" value="150" class="peer sr-only" checked onchange="calculateTotal()">
+                                    <div class="text-center p-3 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition-all">
+                                        <div class="text-sm font-bold">Поддерж.</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="cleanType" id="calc-type-2" value="250" class="peer sr-only" onchange="calculateTotal()">
+                                    <div class="text-center p-3 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition-all">
+                                        <div class="text-sm font-bold">Генеральн.</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="cleanType" id="calc-type-3" value="350" class="peer sr-only" onchange="calculateTotal()">
+                                    <div class="text-center p-3 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 transition-all">
+                                        <div class="text-sm font-bold">Ремонт</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Площадь -->
+                        <div class="mb-8">
+                            <div class="flex justify-between mb-2">
+                                <label class="block text-sm font-bold text-slate-700">Площадь помещения</label>
+                                <span class="font-bold text-blue-600 text-lg"><span id="area-val">50</span> м²</span>
+                            </div>
+                            <input type="range" id="area-range" min="10" max="200" value="50" step="1" oninput="updateArea(this.value); calculateTotal();">
+                            <div class="flex justify-between text-xs text-slate-400 mt-2">
+                                <span>10 м²</span>
+                                <span>200 м²</span>
+                            </div>
+                        </div>
+
+                        <!-- Доп. услуги -->
+                        <div class="mb-8">
+                            <label class="block text-sm font-bold text-slate-700 mb-3">Дополнительно</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500 extra-service" id="calc-extra-1" value="500" onchange="calculateTotal()">
+                                        <span class="ml-3 font-medium text-slate-700"><i class="fa-solid fa-window-maximize text-slate-400 mr-2 w-5"></i>Мытье окон (шт)</span>
+                                    </div>
+                                    <span class="text-sm text-slate-500">+<span class="dyn-extra-1">500</span> тг</span>
+                                </label>
+                                <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500 extra-service" id="calc-extra-2" value="1000" onchange="calculateTotal()">
+                                        <span class="ml-3 font-medium text-slate-700"><i class="fa-solid fa-temperature-empty text-slate-400 mr-2 w-5"></i>Холодильник внутри</span>
+                                    </div>
+                                    <span class="text-sm text-slate-500">+<span class="dyn-extra-2">1000</span> тг</span>
+                                </label>
+                                <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-blue-600 rounded border-slate-300 focus:ring-blue-500 extra-service" id="calc-extra-3" value="800" onchange="calculateTotal()">
+                                        <span class="ml-3 font-medium text-slate-700"><i class="fa-solid fa-fire-burner text-slate-400 mr-2 w-5"></i>Духовка внутри</span>
+                                    </div>
+                                    <span class="text-sm text-slate-500">+<span class="dyn-extra-3">800</span> тг</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Итог и кнопка -->
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col items-center">
+                            <div class="text-sm text-slate-500 mb-1">Примерная стоимость:</div>
+                            <div class="text-4xl font-extrabold text-slate-900 mb-6" id="total-price">7 500 тг</div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-blue-500/40 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Оставить заявку
+                            </button>
+                            <!-- Блок сообщения об успехе (скрыт по умолчанию) -->
+                            <div id="success-msg" class="hidden mt-4 text-green-600 text-sm font-medium text-center w-full bg-green-50 p-2 rounded">
+                                Заявка успешно отправлена! Мы скоро свяжемся с вами.
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-blue-600 rounded text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-sparkles"></i>
+                        </div>
+                        <span class="font-bold text-xl text-slate-900">Clean<span class="text-blue-600">Pro</span></span>
+                    </div>
+                    <p class="text-slate-500 mb-4">Профессиональная уборка квартир, домов и офисов. Создаем уют и чистоту, экономя ваше время.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-blue-600 text-xl transition-colors"><i class="fa-brands fa-vk"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-blue-600 text-xl transition-colors"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-blue-600 text-xl transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">Контакты</h4>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-blue-600"></i> +7 (777) 777-77-77</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-blue-600"></i> info@тазалык.kz</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-blue-600"></i> г. Алматы</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">Режим работы</h4>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex justify-between"><span>Пн - Пт:</span> <span>08:00 - 22:00</span></li>
+                        <li class="flex justify-between"><span>Сб - Вс:</span> <span>08:00 - 22:00</span></li>
+                        <li class="mt-4 text-sm text-slate-500 italic">Принимаем заявки на сайте круглосуточно</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-200 pt-8 text-center text-slate-500 text-sm flex justify-between items-center">
+                <span>&copy; Все права защищены.</span>
+                <button onclick="toggleAdminPanel()" class="text-slate-300 hover:text-blue-600 transition-colors" title="Панель администратора">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </div>
     </footer>
 
-    <script src="script.js" defer></script>
-    <script src="calculytor.js" defer></script>
-  </body>
+    <!-- Админ-панель (Скрыта по умолчанию) -->
+    <div id="admin-panel" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[100] hidden flex justify-end">
+        <div class="w-full max-w-md bg-white h-full shadow-2xl overflow-y-auto transform transition-transform translate-x-full" id="admin-sidebar">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 sticky top-0 z-10">
+                <h2 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-hammer text-blue-600 mr-2"></i>Настройки сайта</h2>
+                <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-slate-700 p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-8">
+                <!-- Секция баннера -->
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-bullhorn mr-2 text-slate-400"></i> Топ-баннер</h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="admin-banner-visible" class="sr-only peer" onchange="saveAdminSettings()">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <span class="ml-3 text-sm font-medium text-slate-700">Показывать баннер</span>
+                        </label>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Текст баннера</label>
+                            <input type="text" id="admin-banner-text" class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-blue-500 focus:border-blue-500" oninput="saveAdminSettings()">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Промокод</label>
+                            <input type="text" id="admin-banner-promo" class="w-full border border-slate-300 rounded p-2 text-sm font-bold focus:ring-blue-500 focus:border-blue-500" oninput="saveAdminSettings()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Секция цен -->
+                <div class="border-t border-slate-200 pt-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-calculator mr-2 text-slate-400"></i> Цены на уборку (тг/м²)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">Поддерживающая</span>
+                            <input type="number" id="admin-price-1" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">Генеральная</span>
+                            <input type="number" id="admin-price-2" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">После ремонта</span>
+                            <input type="number" id="admin-price-3" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Секция доп услуг -->
+                <div class="border-t border-slate-200 pt-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-plus mr-2 text-slate-400"></i> Дополнительно (тг)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">Мытье окон</span>
+                            <input type="number" id="admin-extra-1" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">Холодильник</span>
+                            <input type="number" id="admin-extra-2" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-600">Духовка</span>
+                            <input type="number" id="admin-extra-3" class="w-24 border border-slate-300 rounded p-1.5 text-sm text-right" oninput="saveAdminSettings()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Секция текстов -->
+                <div class="border-t border-slate-200 pt-6 pb-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-pen-to-square mr-2 text-slate-400"></i> Визуальный редактор</h3>
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">Включите режим визуального редактирования, чтобы кликать и изменять любые тексты и изображения (по ссылке) прямо на сайте.</p>
+                    <button id="toggle-edit-mode-btn" onclick="toggleTextEditMode()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors border border-slate-300 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen"></i> Редактировать на странице
+                    </button>
+                    <button onclick="resetAllSettings()" class="w-full mt-4 py-2 text-red-500 hover:text-red-700 hover:bg-red-50 text-sm rounded transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-left"></i> Сбросить все изменения
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script>
+        // --- Логика Калькулятора ---
+        function updateArea(val) {
+            document.getElementById('area-val').innerText = val;
+        }
+
+        function formatPrice(price) {
+            // Форматирование числа: 10000 -> 10 000
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " тг";
+        }
+
+        function calculateTotal() {
+            // 1. Получаем площадь
+            const area = parseInt(document.getElementById('area-range').value);
+            
+            // 2. Получаем тариф (цена за м2)
+            let baseRate = 150; // По умолчанию
+            const typeRadios = document.getElementsByName('cleanType');
+            for(let i = 0; i < typeRadios.length; i++){
+                if(typeRadios[i].checked){
+                    baseRate = parseInt(typeRadios[i].value);
+                    break;
+                }
+            }
+
+            // 3. Считаем базовую стоимость
+            let total = area * baseRate;
+
+            // 4. Добавляем дополнительные услуги
+            const extras = document.querySelectorAll('.extra-service');
+            extras.forEach(function(checkbox) {
+                if(checkbox.checked) {
+                    total += parseInt(checkbox.value);
+                }
+            });
+
+            // 5. Обновляем UI с анимацией
+            const priceEl = document.getElementById('total-price');
+            if(priceEl) {
+                priceEl.innerText = formatPrice(total);
+                
+                // Перезапуск анимации изменения цены
+                priceEl.classList.remove('price-update');
+                void priceEl.offsetWidth; // Триггер reflow
+                priceEl.classList.add('price-update');
+            }
+        }
+
+        // Имитация отправки формы
+        function submitOrder() {
+            const btn = document.querySelector('button[type="submit"]');
+            const msg = document.getElementById('success-msg');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Отправка...';
+            btn.disabled = true;
+
+            // Имитация сетевого запроса
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                msg.classList.remove('hidden');
+                
+                // Скрыть сообщение через 5 секунд
+                setTimeout(() => {
+                    msg.classList.add('hidden');
+                }, 5000);
+            }, 1500);
+        }
+
+        // --- Логика Главного Баннер-Слайдера (Hero) ---
+        let currentHeroSlide = 0;
+        let heroSlideInterval;
+        
+        function updateHeroSlider() {
+            const track = document.getElementById('hero-slider-track');
+            const dots = document.querySelectorAll('.hero-slide-dot');
+            if (!track) return;
+            
+            track.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                if(index === currentHeroSlide) {
+                    dot.classList.remove('bg-white/50', 'bg-slate-300');
+                    dot.classList.add('bg-blue-500');
+                } else {
+                    dot.classList.remove('bg-blue-500', 'bg-blue-600');
+                    dot.classList.add('bg-white/50');
+                }
+            });
+        }
+
+        function nextHeroSlide() {
+            const slides = document.querySelectorAll('#hero-slider-track > div');
+            if (slides.length === 0) return;
+            currentHeroSlide = (currentHeroSlide + 1) % slides.length;
+            updateHeroSlider();
+            resetHeroInterval();
+        }
+
+        function prevHeroSlide() {
+            const slides = document.querySelectorAll('#hero-slider-track > div');
+            if (slides.length === 0) return;
+            currentHeroSlide = (currentHeroSlide - 1 + slides.length) % slides.length;
+            updateHeroSlider();
+            resetHeroInterval();
+        }
+
+        function goToHeroSlide(index) {
+            currentHeroSlide = index;
+            updateHeroSlider();
+            resetHeroInterval();
+        }
+
+        function resetHeroInterval() {
+            clearInterval(heroSlideInterval);
+            heroSlideInterval = setInterval(nextHeroSlide, 6000);
+        }
+        
+        // Запуск автоматической прокрутки главного слайдера (каждые 6 секунд)
+        heroSlideInterval = setInterval(nextHeroSlide, 6000);
+
+        // --- Логика Слайдера Отзывов ---
+        let currentSlide = 0;
+        let slideInterval;
+        
+        function updateSlider() {
+            const track = document.getElementById('slider-track');
+            const dots = document.querySelectorAll('.slide-dot');
+            if (!track) return;
+            
+            // Сдвигаем трек на ширину текущего слайда
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Обновляем активную точку
+            dots.forEach((dot, index) => {
+                if(index === currentSlide) {
+                    dot.classList.remove('bg-slate-300');
+                    dot.classList.add('bg-blue-600');
+                } else {
+                    dot.classList.remove('bg-blue-600');
+                    dot.classList.add('bg-slate-300');
+                }
+            });
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('#slider-track > div');
+            if (slides.length === 0) return;
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+            resetInterval(); // Сбрасываем таймер при ручном клике
+        }
+
+        function prevSlide() {
+            const slides = document.querySelectorAll('#slider-track > div');
+            if (slides.length === 0) return;
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // Запуск автоматической прокрутки (каждые 5 секунд)
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // --- Админ-панель и Сохранение Данных (LocalStorage) ---
+        
+        // Значения по умолчанию
+        const defaultSettings = {
+            bannerVisible: true,
+            bannerText: "То что мы захотим написать",
+            bannerPromo: "NEW26",
+            price1: 150, price2: 250, price3: 350,
+            extra1: 500, extra2: 1000, extra3: 800,
+            savedTexts: {}, // Для визуального редактора
+            savedImages: {} // Для визуального редактора изображений
+        };
+
+        // Загрузка настроек
+        let siteSettings = JSON.parse(localStorage.getItem('cleanProSettings')) || {...defaultSettings};
+
+        function applySettingsToSite() {
+            // Баннер
+            const bannerEl = document.getElementById('promo-banner');
+            if (bannerEl) {
+                bannerEl.style.display = siteSettings.bannerVisible ? 'block' : 'none';
+                document.getElementById('banner-text-content').innerText = siteSettings.bannerText;
+                document.getElementById('banner-promo-code').innerText = siteSettings.bannerPromo;
+            }
+
+            // Калькулятор - радиокнопки
+            if(document.getElementById('calc-type-1')) document.getElementById('calc-type-1').value = siteSettings.price1;
+            if(document.getElementById('calc-type-2')) document.getElementById('calc-type-2').value = siteSettings.price2;
+            if(document.getElementById('calc-type-3')) document.getElementById('calc-type-3').value = siteSettings.price3;
+            
+            // Калькулятор - доп услуги
+            if(document.getElementById('calc-extra-1')) document.getElementById('calc-extra-1').value = siteSettings.extra1;
+            if(document.getElementById('calc-extra-2')) document.getElementById('calc-extra-2').value = siteSettings.extra2;
+            if(document.getElementById('calc-extra-3')) document.getElementById('calc-extra-3').value = siteSettings.extra3;
+
+            // Отображение цен в карточках услуг
+            document.querySelectorAll('.dyn-price-1').forEach(el => el.innerText = siteSettings.price1);
+            document.querySelectorAll('.dyn-price-2').forEach(el => el.innerText = siteSettings.price2);
+            document.querySelectorAll('.dyn-price-3').forEach(el => el.innerText = siteSettings.price3);
+
+            // Отображение цен в тексте калькулятора
+            document.querySelectorAll('.dyn-extra-1').forEach(el => el.innerText = siteSettings.extra1);
+            document.querySelectorAll('.dyn-extra-2').forEach(el => el.innerText = siteSettings.extra2);
+            document.querySelectorAll('.dyn-extra-3').forEach(el => el.innerText = siteSettings.extra3);
+
+            // Применение сохраненных текстов и картинок
+            applySavedTexts();
+            applySavedImages();
+
+            // Пересчет калькулятора с новыми ценами
+            calculateTotal();
+        }
+
+        // Заполнение инпутов админ-панели
+        function populateAdminPanel() {
+            document.getElementById('admin-banner-visible').checked = siteSettings.bannerVisible;
+            document.getElementById('admin-banner-text').value = siteSettings.bannerText;
+            document.getElementById('admin-banner-promo').value = siteSettings.bannerPromo;
+            
+            document.getElementById('admin-price-1').value = siteSettings.price1;
+            document.getElementById('admin-price-2').value = siteSettings.price2;
+            document.getElementById('admin-price-3').value = siteSettings.price3;
+            
+            document.getElementById('admin-extra-1').value = siteSettings.extra1;
+            document.getElementById('admin-extra-2').value = siteSettings.extra2;
+            document.getElementById('admin-extra-3').value = siteSettings.extra3;
+        }
+
+        // Сохранение при вводе в админке
+        function saveAdminSettings() {
+            siteSettings.bannerVisible = document.getElementById('admin-banner-visible').checked;
+            siteSettings.bannerText = document.getElementById('admin-banner-text').value;
+            siteSettings.bannerPromo = document.getElementById('admin-banner-promo').value;
+            
+            siteSettings.price1 = parseInt(document.getElementById('admin-price-1').value) || 0;
+            siteSettings.price2 = parseInt(document.getElementById('admin-price-2').value) || 0;
+            siteSettings.price3 = parseInt(document.getElementById('admin-price-3').value) || 0;
+            
+            siteSettings.extra1 = parseInt(document.getElementById('admin-extra-1').value) || 0;
+            siteSettings.extra2 = parseInt(document.getElementById('admin-extra-2').value) || 0;
+            siteSettings.extra3 = parseInt(document.getElementById('admin-extra-3').value) || 0;
+
+            localStorage.setItem('cleanProSettings', JSON.stringify(siteSettings));
+            applySettingsToSite();
+        }
+
+        // Сброс
+        function resetAllSettings() {
+            if(confirm('Вы уверены, что хотите сбросить все изменения (включая отредактированные тексты и картинки) к изначальным настройкам?')) {
+                siteSettings = {...defaultSettings};
+                siteSettings.savedTexts = {};
+                siteSettings.savedImages = {};
+                localStorage.setItem('cleanProSettings', JSON.stringify(siteSettings));
+                window.location.reload();
+            }
+        }
+
+        // Открытие/закрытие админки
+        function toggleAdminPanel() {
+            const panel = document.getElementById('admin-panel');
+            const sidebar = document.getElementById('admin-sidebar');
+            
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                populateAdminPanel();
+                // Анимация выезда
+                setTimeout(() => {
+                    sidebar.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                sidebar.classList.add('translate-x-full');
+                setTimeout(() => {
+                    panel.classList.add('hidden');
+                }, 300); // время транзакции
+            }
+        }
+
+        // --- Визуальный редактор текстов и изображений ---
+        let isTextEditMode = false;
+        
+        function toggleTextEditMode() {
+            isTextEditMode = !isTextEditMode;
+            const btn = document.getElementById('toggle-edit-mode-btn');
+            
+            const editableTags = document.querySelectorAll('h1, h2, h3, h4, p, li, span');
+            const editableImages = document.querySelectorAll('img');
+            
+            if (isTextEditMode) {
+                btn.classList.add('bg-blue-100', 'text-blue-700', 'border-blue-300');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Завершить редактирование';
+                
+                // Включаем редактирование текста
+                editableTags.forEach((el, index) => {
+                    if (el.closest('#admin-panel') || el.closest('nav') || el.classList.contains('fa-solid') || el.className.includes('dyn-') || el.id === 'total-price' || el.id === 'area-val') return;
+                    
+                    el.setAttribute('contenteditable', 'true');
+                    el.classList.add('admin-edit-mode');
+                    el.dataset.textIndex = index;
+                    el.addEventListener('blur', saveEditedText);
+                });
+
+                // Включаем редактирование изображений
+                editableImages.forEach((img, index) => {
+                    img.classList.add('admin-edit-mode');
+                    img.dataset.imgIndex = index;
+                    img.addEventListener('click', handleImageEdit);
+                });
+
+                toggleAdminPanel(); // Скрываем панель для удобства редактирования
+            } else {
+                btn.classList.remove('bg-blue-100', 'text-blue-700', 'border-blue-300');
+                btn.innerHTML = '<i class="fa-solid fa-pen"></i> Редактировать на странице';
+                
+                // Выключаем редактирование
+                document.querySelectorAll('.admin-edit-mode').forEach(el => {
+                    if (el.tagName !== 'IMG') {
+                        el.removeAttribute('contenteditable');
+                        el.removeEventListener('blur', saveEditedText);
+                    } else {
+                        el.removeEventListener('click', handleImageEdit);
+                    }
+                    el.classList.remove('admin-edit-mode');
+                });
+            }
+        }
+
+        // Сохранение текста
+        function saveEditedText(e) {
+            const index = e.target.dataset.textIndex;
+            siteSettings.savedTexts[index] = e.target.innerHTML;
+            localStorage.setItem('cleanProSettings', JSON.stringify(siteSettings));
+        }
+
+        // Сохранение и замена изображения
+        function handleImageEdit(e) {
+            if (!isTextEditMode) return;
+            e.preventDefault();
+            e.stopPropagation(); // предотвращаем пролистывание слайдера при клике
+
+            const currentSrc = e.target.src;
+            const newSrc = prompt('Введите новую ссылку на изображение (URL):', currentSrc);
+            
+            if (newSrc !== null && newSrc.trim() !== '') {
+                e.target.src = newSrc.trim();
+                const index = e.target.dataset.imgIndex;
+                if (!siteSettings.savedImages) siteSettings.savedImages = {};
+                siteSettings.savedImages[index] = newSrc.trim();
+                localStorage.setItem('cleanProSettings', JSON.stringify(siteSettings));
+            }
+        }
+
+        function applySavedTexts() {
+            if(!siteSettings.savedTexts) siteSettings.savedTexts = {};
+            const editableTags = document.querySelectorAll('h1, h2, h3, h4, p, li, span');
+            
+            editableTags.forEach((el, index) => {
+                if (siteSettings.savedTexts[index] !== undefined && siteSettings.savedTexts[index] !== null) {
+                    el.innerHTML = siteSettings.savedTexts[index];
+                }
+            });
+        }
+
+        function applySavedImages() {
+            if(!siteSettings.savedImages) siteSettings.savedImages = {};
+            const editableImages = document.querySelectorAll('img');
+            
+            editableImages.forEach((img, index) => {
+                if (siteSettings.savedImages[index] !== undefined && siteSettings.savedImages[index] !== null) {
+                    img.src = siteSettings.savedImages[index];
+                }
+            });
+        }
+
+        // Вызов калькулятора и загрузка настроек при старте
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettingsToSite();
+        });
+
+
+        // --- Анимации при прокрутке (Scroll Reveal) ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Порог видимости
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Вызов при загрузке, чтобы показать элементы на первом экране
+        reveal();
+
+
+        // --- Мобильное меню и изменение Navbar при скролле ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navbar = document.getElementById('navbar');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Закрывать моб. меню при клике на ссылку
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.remove('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.add('shadow-sm');
+            }
+        });
+    </script>
+</body>
 </html>
